@@ -96,7 +96,7 @@ supabase = supabase.create_client(url, key)
 # Add CORS middleware
 origins = [
     "http://localhost:3000",  # Example origin
-    "https://your-frontend-domain.com",  # Add your frontend domain(s) here
+    "https://laundryprogress.vercel.app"
 ]
 
 app.add_middleware(
