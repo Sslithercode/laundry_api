@@ -2,8 +2,17 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware  # Import the CORS middleware
 from pydantic import BaseModel
 import threading
+import supabase, os
 import time
 import json
+from dotenv import load_dotenv
+
+
+
+load_dotenv('.env')
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_ANON_KEY")
+
 
 # Timer class to handle timing functionality
 class Timer:
@@ -82,6 +91,7 @@ class LaundryMachine:
 
 # FastAPI application instance
 app = FastAPI()
+supabase = supabase.create_client(url, key)
 
 # Add CORS middleware
 origins = [
@@ -99,23 +109,21 @@ app.add_middleware(
 
 # In-memory storage for laundry machines
 machines = {}
-
+machines_supabase = supabase.from_("laundry_machines").select("*").execute().data
 # Request model for starting a wash
 class StartWashRequest(BaseModel):
     minutes: int
 
 # Function to load machines from JSON file
-def load_machines_from_json(filename):
-    with open(filename, 'r') as f:
-        data = json.load(f)
-        for machine in data['machines']:
-            machine_type = machine['type']
-            name = machine['name']
-            serial_number = machine['serial_number']
-            machines[serial_number] = LaundryMachine(machine_type, name, serial_number)
+def load_machines_from_supabase(machines_sup):
+    for machine in machines_sup:
+        machine_type = machine['type']
+        name = machine['name']
+        serial_number = machine['serial_number']
+        machines[serial_number] = LaundryMachine(machine_type, name, serial_number)
 
 # Load machines when the application starts
-load_machines_from_json("machines.json")
+load_machines_from_supabase(machines_supabase)
 
 # Endpoint to start a wash
 @app.post("/machines/{serial_number}/start_wash", response_model=dict)
