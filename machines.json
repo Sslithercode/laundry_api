@@ -1,0 +1,15 @@
+{
+    "machines": [
+        {"type": "washer", "name": "Washer 1", "serial_number": 594},
+        {"type": "washer", "name": "Washer 2", "serial_number": 595},
+        {"type": "washer", "name": "Washer 3", "serial_number": 596},
+        {"type": "washer", "name": "Washer 4", "serial_number": 597},
+        {"type": "washer", "name": "Washer 5", "serial_number": 598},
+        {"type": "dryer", "name": "Dryer 1", "serial_number": 916},
+        {"type": "dryer", "name": "Dryer 2", "serial_number": 917},
+        {"type": "dryer", "name": "Dryer 3", "serial_number": 918},
+        {"type": "dryer", "name": "Dryer 4", "serial_number": 919},
+        {"type": "dryer", "name": "Dryer 5", "serial_number": 920},
+        {"type": "dryer", "name": "Dryer 6", "serial_number": 921}
+    ]
+}
